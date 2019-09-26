@@ -984,3 +984,34 @@ td {
         font-family: -apple-system,BlinkMacSystemFont,'Helvetica Neue','PingFang SC','Hiragino Sans GB','Droid Sans Fallback','Microsoft YaHei',sans-serif;
       }
     
+      .avatar {
+    border-radius: 50%;
+    margin-bottom:0px;
+}
+.avatar:hover {
+    transform: rotate(666turn);
+    transition-duration: 59s;
+    transition-timing-function: cubic-bezier(.34, 0, .84, 1)
+}
+.site-header .menu-container a.menu {
+  font-size: 14px;
+  padding: 10px 15px;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+.post-container .post .post-title {
+  font-size: 18px;
+  text-align: center;
+  padding: 24px 0;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.post-detail .post .post-title {
+  font-size: 20px;
+  text-align: center;
+  padding: 24px 0;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+    
