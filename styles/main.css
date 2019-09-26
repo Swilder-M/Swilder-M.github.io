@@ -984,7 +984,8 @@ td {
         font-family: -apple-system,BlinkMacSystemFont,'Helvetica Neue','PingFang SC','Hiragino Sans GB','Droid Sans Fallback','Microsoft YaHei',sans-serif;
       }
     
-      .avatar {
+      
+.avatar {
     border-radius: 50%;
     margin-bottom:0px;
 }
