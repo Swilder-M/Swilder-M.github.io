@@ -1013,5 +1013,15 @@ td {
   font-weight: 600;
   letter-spacing: 0.02em;
 }
+.post-container .post .post-feature-image {
+  display: block;
+  width: 100%;
+  padding-top: 32.6%;
+  border-radius: 8px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  transition: all 0.3s;
+}
 
     
