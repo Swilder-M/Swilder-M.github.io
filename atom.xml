@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ming-note.poxiaobbs.com</id>
     <title>The Note Of Ming-永远保持对技术的谦卑</title>
-    <updated>2019-09-26T12:24:48.455Z</updated>
+    <updated>2019-09-27T04:35:52.565Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ming-note.poxiaobbs.com"/>
     <link rel="self" href="https://ming-note.poxiaobbs.com/atom.xml"/>
@@ -11,10 +11,33 @@
     <icon>https://ming-note.poxiaobbs.com/favicon.ico</icon>
     <rights>All rights reserved 2019, The Note Of Ming-永远保持对技术的谦卑</rights>
     <entry>
+        <title type="html"><![CDATA[在 CentOS 上安装 Hadoop 分布式教程记录]]></title>
+        <id>https://ming-note.poxiaobbs.com/post/hadoop-install</id>
+        <link href="https://ming-note.poxiaobbs.com/post/hadoop-install">
+        </link>
+        <updated>2019-09-26T12:26:41.000Z</updated>
+        <summary type="html"><![CDATA[<blockquote>
+<p>Apache Hadoop是一款支持数据密集型分布式应用程序并以Apache 2.0许可协议发布的开源软件框架。它支持在商品硬件构建的大型集群上运行的应用程序。Hadoop是根据谷歌公司发表的MapReduce和Google文件系统的论文自行实现而成。所有的Hadoop模块都有一个基本假设，即硬件故障是常见情况，应该由框架自动处理。</p>
+</blockquote>
+]]></summary>
+        <content type="html"><![CDATA[<blockquote>
+<p>Apache Hadoop是一款支持数据密集型分布式应用程序并以Apache 2.0许可协议发布的开源软件框架。它支持在商品硬件构建的大型集群上运行的应用程序。Hadoop是根据谷歌公司发表的MapReduce和Google文件系统的论文自行实现而成。所有的Hadoop模块都有一个基本假设，即硬件故障是常见情况，应该由框架自动处理。</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Hello, World!]]></title>
         <id>https://ming-note.poxiaobbs.com/post/hello</id>
         <link href="https://ming-note.poxiaobbs.com/post/hello">
         </link>
         <updated>2019-09-26T06:14:42.000Z</updated>
+        <summary type="html"><![CDATA[<blockquote>
+<p>A &quot;Hello, World!&quot; program generally is a computer program that outputs or displays the message &quot;Hello, World!&quot;. Such a program is very simple in most programming languages, and is often used to illustrate the basic syntax of a programming language. It is often the first program written by people learning to code.  -- Wikipedia</p>
+</blockquote>
+]]></summary>
+        <content type="html"><![CDATA[<blockquote>
+<p>A &quot;Hello, World!&quot; program generally is a computer program that outputs or displays the message &quot;Hello, World!&quot;. Such a program is very simple in most programming languages, and is often used to illustrate the basic syntax of a programming language. It is often the first program written by people learning to code.  -- Wikipedia</p>
+</blockquote>
+]]></content>
     </entry>
 </feed>

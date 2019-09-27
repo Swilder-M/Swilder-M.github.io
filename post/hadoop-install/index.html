@@ -1,0 +1,320 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>在 CentOS 上安装 Hadoop 分布式教程记录 | The Note Of Ming-永远保持对技术的谦卑</title>
+<meta name="description" content="The Note Of Ming-永远保持对技术的谦卑" />
+<link rel="shortcut icon" href="https://ming-note.poxiaobbs.com/favicon.ico?v=1569558949397">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://ming-note.poxiaobbs.com/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header" style="text-align:left;padding:5px 0;margin-bottom:16px;">
+
+
+<a href="https://ming-note.poxiaobbs.com" style="float:left;margin-left:5px;">
+  <img class="avatar" style="width:50px;height:50px;" src="https://ming-note.poxiaobbs.com/images/avatar.png?v=1569558949397" alt="Ming">
+</a>
+  <div class="menu-container" style="float:right;padding:10px 0;">
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/hello/" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              在 CentOS 上安装 Hadoop 分布式教程记录
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-09-26
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+                <a href="https://ming-note.poxiaobbs.com/tag/hadoop" class="post-tag">
+                  # hadoop
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <blockquote>
+<p>Apache Hadoop是一款支持数据密集型分布式应用程序并以Apache 2.0许可协议发布的开源软件框架。它支持在商品硬件构建的大型集群上运行的应用程序。Hadoop是根据谷歌公司发表的MapReduce和Google文件系统的论文自行实现而成。所有的Hadoop模块都有一个基本假设，即硬件故障是常见情况，应该由框架自动处理。</p>
+</blockquote>
+<!-- more -->
+<h2 id="准备工作">准备工作</h2>
+<h3 id="centos-安装">CentOS 安装</h3>
+<p>本教程我的安装环境为 <code>CentOS 6 64位</code>、<code>Hadoop 2.7.7</code></p>
+<p>虚拟机软件的话，Mac 下我推荐大家使用 <code>Wmware Fusion</code>，Windows 下使用 <code>Wmware workstation</code>，安装虚拟机的步骤相对简单，这里就不详细介绍了</p>
+<p>相关软件下载：</p>
+<ul>
+<li><a href="https://yun.poxiaobbs.com/?/BigData/WMware/">Wmware workstation</a></li>
+<li><a href="http://mirror.nsc.liu.se/centos-store/6.5/isos/x86_64/">CentOS-6.5-x86_64-bin-DVD1.iso</a></li>
+</ul>
+<p>建议：不要汉化或者使用中文版系统</p>
+<h3 id="jdk-hadoop-下载">JDK、Hadoop 下载</h3>
+<ul>
+<li><a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">jdk-8u221-linux-x64.tar.gz</a></li>
+<li><a href="https://mirrors.tuna.tsinghua.edu.cn/apache/hadoop/common/hadoop-2.7.7/">hadoop-2.7.7.tar.gz</a></li>
+</ul>
+<blockquote>
+<p>下载时请下载 hadoop-2.7.7.tar.gz 这个格式的文件，这是编译好的，另一个包含 src 的则是 Hadoop 源代码，需要进行编译才可使用</p>
+</blockquote>
+<h2 id="开始安装">开始安装</h2>
+<h3 id="新增-hadoop-用户">新增 hadoop 用户</h3>
+<p>我们需要新增一个用户名为 hadoop 的用户，后续操作都在该用户下执行</p>
+<pre><code class="language-bash">sudo su # 切换为root用户
+useradd -m hadoop
+passwd # 这里会让你设置密码，连续两次，输入密码不会显示的
+</code></pre>
+<p>接下来我们需要给 hadoop 用户设置管理员权限，使用命令<code>visudo</code>，进入vi编辑器<br>
+找到 <code>root ALL=(ALL) ALL</code>这一行，按键盘上的<code>i键</code>进入输入模式<br>
+接下来在root那一行底下另起一行输入<code>hadoop ALL=(ALL) ALL</code>,注意中间的间隔是<code>Tab</code><br>
+然后按键盘上的<code>ESC键</code>，输入<code>:wq</code>，回车保存并退出<br>
+<img src="https://ali-img.poxiaobbs.com/img/20190926212946.png" alt=""><br>
+接下来点击系统右上角切换用户，使用 hadoop 登录</p>
+<h3 id="配置-ssh-免密登录">配置 SSH 免密登录</h3>
+<blockquote>
+<p>Secure Shell（安全外壳协议，简称SSH）是一种加密的网络传输协议，可在不安全的网络中为网络服务提供安全的传输环境。SSH通过在网络中创建安全隧道来实现SSH客户端与服务器之间的连接。虽然任何网络服务都可以通过SSH实现安全传输，SSH最常见的用途是远程登录系统，人们通常利用SSH来传输命令行界面和远程执行命令</p>
+</blockquote>
+<p>首先我们查看系统是否安装了 <code>SSH client</code>、<code>SSH server</code></p>
+<pre><code class="language-bash">rpm -qa | grep ssh # 查看结果里是否有 SSH client 和 SSH server
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://ali-img.poxiaobbs.com/img/20190926213208.png" alt=""></figure>
+<p>如果没有的话需要手动安装一下，过程中会问你Y/N，输入y回车即可</p>
+<pre><code class="language-bash">sudo yum install openssh-clients
+sudo yum install openssh-server
+</code></pre>
+<p>接下来我们测试 SSH 是否可用：<code>ssh localhost</code><br>
+<img src="https://ali-img.poxiaobbs.com/img/20190927104049.png" alt=""></p>
+<p>可以看到我们连接是需要密码的，接下来配置免密登录，首先输入 <code>exit</code>退出刚才的ssh，接下来依次执行</p>
+<pre><code class="language-bash">cd ~/.ssh/ # 如果提示没有该目录，请执行 ssh localhost再exit即可
+ssh-keygen -t rsa # 生成公钥私钥，有提示直接回车即可
+cat id_rsa.pub &gt;&gt; authorized_keys # 加入授权
+chmod 600 ./authorized_keys # 修改权限
+</code></pre>
+<p>完成后输入<code>ssh localhost</code>查看是否还需要密码，不需要就是配置完成</p>
+<h3 id="安装jdk">安装JDK</h3>
+<p>我们在～目录下新建一个apps文件夹存放安装的软件：<code>mkdir ~/apps</code>，然后把下载的jdk-8u221-linux-x64.tar.gz文件放在apps目录下</p>
+<pre><code class="language-bash">cd ~/apps
+tar -zxvf jdk-8u221-linux-x64.tar.gz
+mv jdk1.8.0_221/ jdk # 重命名文件夹
+</code></pre>
+<p>配置环境变量：</p>
+<pre><code class="language-bash">vim ~/.bashrc # 进入编辑模式，加入下面两行后保存退出
+
+export JAVA_HOME=/home/hadoop/apps/jdk
+export PATH=$PATH:$JAVA_HOME/bin
+
+source ~/.bashrc # 使配置生效
+</code></pre>
+<p>如下图<br>
+<img src="https://ali-img.poxiaobbs.com/img/20190927113400.png" alt=""></p>
+<p>输入<code>java -version</code>查看版本信息，出现如下信息就是成功安装<br>
+<img src="https://ali-img.poxiaobbs.com/img/20190927113756.png" alt=""></p>
+<h3 id="安装hadoop">安装Hadoop</h3>
+<p>将下载的 hadoop-2.7.7.tar.gz 拷贝至～/apps目录下</p>
+<pre><code class="language-bash">cd ~/apps
+tar -zxvf hadoop-2.7.7.tar.gz
+mv hadoop-2.7.7 hadoop
+</code></pre>
+<p>配置环境变量</p>
+<pre><code class="language-bash">vim ~/.bashrc # 进入编辑模式，加入下面两行后保存退出
+
+export HADOOP_HOME=/home/hadoop/apps/hadoop
+export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
+
+source ~/.bashrc # 使配置生效
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://ali-img.poxiaobbs.com/img/20190927115403.png" alt=""></figure>
+<p>修改Hadpp配置<br>
+我们需要修改的配置文件有两个：<code>core-site.xml</code>和<code>hdfs-site.xml</code>，都在<code>$HADOOP_HOME/etc/hadoop</code>目录下<br>
+<img src="https://ali-img.poxiaobbs.com/img/20190927115751.png" alt=""></p>
+<p>首先将 core-site.xml 中的：</p>
+<pre><code class="language-xml">&lt;configuration&gt;
+&lt;/configuration&gt;
+</code></pre>
+<p>修改为：</p>
+<pre><code class="language-xml">&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
+        &lt;value&gt;file:/home/hadoop/apps/hadoop/tmp&lt;/value&gt;
+        &lt;description&gt;Abase for other temporary directories.&lt;/description&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;fs.defaultFS&lt;/name&gt;
+        &lt;value&gt;hdfs://localhost:9000&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre>
+<p>同样的，再将 hdfs-site.xml 修改为：</p>
+<pre><code class="language-xml">&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.replication&lt;/name&gt;
+        &lt;value&gt;1&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;
+        &lt;value&gt;file:/home/hadoop/apps/hadoop/tmp/dfs/name&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;
+        &lt;value&gt;file:/home/hadoop/apps/hadoop/tmp/dfs/data&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre>
+<p>配置完成后，我们进行 NameNode 的格式化：</p>
+<pre><code class="language-bash">cd ~/apps/hadoop
+./bin/hdfs namenode -format
+</code></pre>
+<p>成功的话，会看到 “successfully formatted” 和 “Exitting with status 0” 的提示，若为 “Exitting with status 1” 则是出错。<br>
+<img src="https://ali-img.poxiaobbs.com/img/20190927120459.png" alt=""></p>
+<p>接下来启动Hadoop</p>
+<pre><code class="language-bash">start-all.sh
+</code></pre>
+<p>如果出现SSH的提示，输入yes回车即可<br>
+<img src="https://ali-img.poxiaobbs.com/img/20190927120747.png" alt=""></p>
+<p>使用<code>jps</code>查看进程，出现下面进程 <code>NameNode</code>、<code>DataNode</code>和<code>SecondaryNameNode</code>即可<br>
+<img src="https://ali-img.poxiaobbs.com/img/20190927122255.png" alt=""></p>
+<blockquote>
+<p>如果<code>SecondaryNameNode</code>没有，就执行一下<code>stop-all.sh</code>，再执行<code>start-all.sh</code>即可</p>
+</blockquote>
+<p>成功启动后，可以通过浏览器打开<code>http://localhost:50070</code>访问 Web 界面，查看 NameNode 和 Datanode 信息，还可以在线查看 HDFS 中的文件<br>
+<img src="https://ali-img.poxiaobbs.com/img/20190927122627.png" alt=""></p>
+<h2 id="安装完成">安装完成</h2>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C">准备工作</a>
+<ul>
+<li><a href="#centos-%E5%AE%89%E8%A3%85">CentOS 安装</a></li>
+<li><a href="#jdk-hadoop-%E4%B8%8B%E8%BD%BD">JDK、Hadoop 下载</a></li>
+</ul>
+</li>
+<li><a href="#%E5%BC%80%E5%A7%8B%E5%AE%89%E8%A3%85">开始安装</a>
+<ul>
+<li><a href="#%E6%96%B0%E5%A2%9E-hadoop-%E7%94%A8%E6%88%B7">新增 hadoop 用户</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE-ssh-%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95">配置 SSH 免密登录</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85jdk">安装JDK</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85hadoop">安装Hadoop</a></li>
+</ul>
+</li>
+<li><a href="#%E5%AE%89%E8%A3%85%E5%AE%8C%E6%88%90">安装完成</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://ming-note.poxiaobbs.com/post/hello">
+              <h3 class="post-title">
+                Hello, World!
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Ming</a> | 
+  <a class="rss" href="https://ming-note.poxiaobbs.com/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>
